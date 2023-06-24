@@ -1,7 +1,8 @@
 export const pagination = async (query:any, filteredProducts:any) => {
 	const {resPerPage, page} = query
 	
-	const productsPerPage = resPerPage || 2
+	const defaultProducts = 2
+	const productsPerPage = Number(resPerPage) || defaultProducts
 	
 	if(page) {
 		filteredProducts.skip(productsPerPage * (page - 1))
@@ -11,5 +12,5 @@ export const pagination = async (query:any, filteredProducts:any) => {
 	filteredProducts.limit(productsPerPage)
 
 	const products = await filteredProducts.exec()
-	return products
+	return {pagedProducts: products, resPerPage: productsPerPage}
 }

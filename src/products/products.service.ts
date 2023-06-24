@@ -13,11 +13,12 @@ export class ProductsService {
 
 	async findAllProducts(query: any) {
 		const filters = productFilters(query)
-		
-		const filteredProducts = this.productsModel.find(filters)
 
-		const pagedProducts = await pagination(query, filteredProducts)
-		return pagedProducts
+		const filteredProducts = this.productsModel.find(filters)
+		const productCount = await this.productsModel.countDocuments(filters).exec()
+
+		const {pagedProducts, resPerPage} = await pagination(query,filteredProducts)
+		return {pagedProducts, productCount, resPerPage}
 	}
 	async createProduct(createProduct: CreateProductDto) {
 		const newProduct = await this.productsModel.create(createProduct)
