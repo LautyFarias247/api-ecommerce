@@ -14,6 +14,9 @@ export class Product{
 	@Prop({type:String, required: true })
 	category: string
 
+	@Prop({type: String, required: true})
+	subcategory: string
+
 	@Prop({type:Number, required: true })
 	price: number
 

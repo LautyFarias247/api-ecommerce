@@ -26,6 +26,8 @@ export class ProductsController {
 			return await this.productsService.createProduct(body)
 
 		} catch (error) {
+			console.log(error);
+			
 			if (error.code === 11000) throw new ConflictException('Producto ya existente')
 			throw error
 		}
