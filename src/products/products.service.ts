@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateProductDto } from 'src/dto/create-product.dto';
 import { UpdateProductDto } from 'src/dto/update-product.dto';
 import { productFilters } from 'src/utils/productFilters';
+import { pagination } from 'src/utils/pagination';
 
 @Injectable()
 export class ProductsService {
@@ -12,7 +13,11 @@ export class ProductsService {
 
 	async findAllProducts(query: any) {
 		const filters = productFilters(query)
-		return await this.productsModel.find(filters)
+		
+		const filteredProducts = this.productsModel.find(filters)
+
+		const pagedProducts = await pagination(query, filteredProducts)
+		return pagedProducts
 	}
 	async createProduct(createProduct: CreateProductDto) {
 		const newProduct = await this.productsModel.create(createProduct)
