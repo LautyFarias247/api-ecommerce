@@ -1,4 +1,4 @@
-import { Body,Controller,Get,Post,Put,Delete,Param,NotFoundException,ConflictException,HttpCode } from '@nestjs/common';
+import { Body,Controller,Get,Post,Put,Delete,Param,NotFoundException,ConflictException,HttpCode, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from 'src/dto/create-product.dto';
 import { UpdateProductDto } from 'src/dto/update-product.dto';
@@ -8,8 +8,8 @@ export class ProductsController {
 	constructor(private productsService: ProductsService) { }
 
 	@Get()
-	findAllProducts() {
-		return this.productsService.findAllProducts()
+	async findAllProducts(@Query() query: string) {
+		return await this.productsService.findAllProducts(query)
 	}
 
 	@Get(':_id')
